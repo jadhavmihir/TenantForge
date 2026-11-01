@@ -1,5 +1,4 @@
--- 0001: schemas. Safe to run more than once.
--- CREATE SCHEMA must be the only statement in its batch, hence EXEC inside the IF.
+-- schemas. CREATE SCHEMA has to be alone in its batch, hence the EXEC.
 
 IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = N'iam')
     EXEC (N'CREATE SCHEMA iam');
