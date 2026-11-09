@@ -47,7 +47,15 @@ var triggers = DeployChanges.To
     .LogToConsole()
     .Build();
 
-foreach (var step in new[] { bootstrap, migration, triggers} )
+var procedures = DeployChanges.To
+    .SqlDatabase(connectionString)
+    .WithScriptsFromFileSystem(Path.Combine(root, "procedures"))
+    .JournalTo(new NullJournal())
+    .WithTransactionPerScript()
+    .LogToConsole()
+    .Build();
+
+foreach (var step in new[] { bootstrap, migration, triggers, procedures} )
 {
     var result = step.PerformUpgrade();
 
